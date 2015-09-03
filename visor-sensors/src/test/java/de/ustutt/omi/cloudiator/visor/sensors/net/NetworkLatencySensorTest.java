@@ -1,6 +1,5 @@
-package de.ustutt.omi.cloudiator.visor.sensors.fs;
+package de.ustutt.omi.cloudiator.visor.sensors.net;
 
-import org.hyperic.sigar.SigarException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,32 +8,30 @@ import de.uniulm.omi.cloudiator.visor.monitoring.InvalidMonitorContextException;
 import de.uniulm.omi.cloudiator.visor.monitoring.MeasurementNotAvailableException;
 import de.uniulm.omi.cloudiator.visor.monitoring.SensorInitializationException;
 import de.uniulm.omi.cloudiator.visor.monitoring.DefaultMonitorContext.MonitorContextBuilder;
-import de.ustutt.omi.cloudiator.visor.sensors.fs.FreeDiskSpaceSensor;
 
-public class FreeDiskSpaceSensorTest {
+public class NetworkLatencySensorTest {
 
-	private FreeDiskSpaceSensor sensor;
+	private NetworkLatencySensor sensor;
 
 	@Before
 	public void setUp() throws SensorInitializationException {
-		sensor = new FreeDiskSpaceSensor();
+		sensor = new NetworkLatencySensor();
 		sensor.init();
 	}
 
 	@Test
-	public void testFreeDiskSpaceSensor() 
-			throws InvalidMonitorContextException, 
-				   MeasurementNotAvailableException,
-				   SigarException {
+	public void testLatency() 
+			throws MeasurementNotAvailableException,
+			       InvalidMonitorContextException {
 		MonitorContextBuilder builder = DefaultMonitorContext.builder();
-		builder.addContext("fs_root", "/");
-		builder.addContext("unit", "mb");
+		builder.addContext("host", "www.google.com");
+		builder.addContext("port", "80");
 		sensor.setMonitorContext(builder.build());
-
+		
 		System.out.println(sensor.getMeasurement().getValue());
 	}
 	
-	@Test
+	@Test(expected = InvalidMonitorContextException.class)
 	public void testEmptyMonitorContext() 
 			throws MeasurementNotAvailableException,
 			       InvalidMonitorContextException {
@@ -44,48 +41,58 @@ public class FreeDiskSpaceSensorTest {
 		System.out.println(sensor.getMeasurement().getValue());
 	}
 
-	@Test
-	public void testMissingFsRoot() 
+	@Test(expected = InvalidMonitorContextException.class)
+	public void testMissingHost() 
 			throws MeasurementNotAvailableException, 
 			       InvalidMonitorContextException {
 		MonitorContextBuilder builder = DefaultMonitorContext.builder();
-		builder.addContext("unit", "mb");
+		builder.addContext("port", "80");
 		sensor.setMonitorContext(builder.build());
 		
 		System.out.println(sensor.getMeasurement().getValue());
 	}
 	
 	@Test
-	public void testMissingUnit() 
+	public void testMissingPort() 
 			throws MeasurementNotAvailableException, 
 			       InvalidMonitorContextException {
 		MonitorContextBuilder builder = DefaultMonitorContext.builder();
-		builder.addContext("fs_root", "/");
+		builder.addContext("host", "www.google.com");
 		sensor.setMonitorContext(builder.build());
 		
 		System.out.println(sensor.getMeasurement().getValue());
 	}
 	
-	@Test(expected = MeasurementNotAvailableException.class)
-	public void testWrongFsRoot() 
+	@Test(expected = InvalidMonitorContextException.class)
+	public void testWrongHost() 
 			throws MeasurementNotAvailableException, 
 			       InvalidMonitorContextException {
 		MonitorContextBuilder builder = DefaultMonitorContext.builder();
-		builder.addContext("fs_root", "foobar");
+		builder.addContext("host", "http://");
 		sensor.setMonitorContext(builder.build());
 		
 		System.out.println(sensor.getMeasurement().getValue());
 	}
 	
-	@Test
-	public void testWrongUnit() 
+	@Test(expected = InvalidMonitorContextException.class)
+	public void testWrongPortString() 
 			throws MeasurementNotAvailableException, 
 			       InvalidMonitorContextException {
 		MonitorContextBuilder builder = DefaultMonitorContext.builder();
-		builder.addContext("unit", "foobar");
+		builder.addContext("port", "foobar");
 		sensor.setMonitorContext(builder.build());
 		
 		System.out.println(sensor.getMeasurement().getValue());
 	}
 	
+	@Test(expected = InvalidMonitorContextException.class)
+	public void testWrongPort() 
+			throws MeasurementNotAvailableException, 
+			       InvalidMonitorContextException {
+		MonitorContextBuilder builder = DefaultMonitorContext.builder();
+		builder.addContext("port", "1648551");
+		sensor.setMonitorContext(builder.build());
+		
+		System.out.println(sensor.getMeasurement().getValue());
+	}
 }

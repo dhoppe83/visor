@@ -5,7 +5,7 @@ import de.uniulm.omi.cloudiator.visor.monitoring.MeasurementImpl;
 import de.uniulm.omi.cloudiator.visor.monitoring.MeasurementNotAvailableException;
 import de.uniulm.omi.cloudiator.visor.monitoring.MonitorContext;
 
-public class NetBandwidthSensor extends NetInterfaceSensor {
+public class UploadBandwidthSensor extends TxBytesSensor {
 
 	private long previousVal = 0;
 	private long previousTime = 0;

@@ -38,21 +38,24 @@ public class FreeDiskSpaceSensor extends AbstractSensor {
 	private final String defaultFSRoot = SensorUtils.getDefaultFsRoot();
 	private String fsRoot = null;
 	private double unit = 0.0;
-	
+
 	@Override
-	public void setMonitorContext(MonitorContext monitorContext) throws InvalidMonitorContextException {
+	public void setMonitorContext(MonitorContext monitorContext)
+			throws InvalidMonitorContextException {
 		super.setMonitorContext(monitorContext);
 		fsRoot = monitorContext.getOrDefault(CONTEXT_FS, defaultFSRoot);
-		unit = SensorUtils.parseContextUnit(monitorContext.getValue(CONTEXT_UNIT));
+		String ctx = monitorContext.getValue(CONTEXT_UNIT);
+		unit = SensorUtils.parseContextUnit(ctx);
 	}
 
 	@Override
 	protected Measurement getMeasurement(MonitorContext monitorContext)
 			throws MeasurementNotAvailableException {
-		return new MeasurementImpl(System.currentTimeMillis(), getUsage(fsRoot, unit));
+		double usage = getFreeDiskSpace(fsRoot,	unit);
+		return new MeasurementImpl(System.currentTimeMillis(), usage);
 	}
 
-	private double getUsage(String name, double size)
+	private double getFreeDiskSpace(final String name, final double size)
 			throws MeasurementNotAvailableException {
 		try {
 			SigarProxy proxy = SigarProxyCache.newInstance();
