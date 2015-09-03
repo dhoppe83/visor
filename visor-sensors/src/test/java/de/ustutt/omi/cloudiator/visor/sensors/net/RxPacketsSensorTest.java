@@ -10,13 +10,13 @@ import de.uniulm.omi.cloudiator.visor.monitoring.MeasurementNotAvailableExceptio
 import de.uniulm.omi.cloudiator.visor.monitoring.SensorInitializationException;
 import de.uniulm.omi.cloudiator.visor.monitoring.DefaultMonitorContext.MonitorContextBuilder;
 
-public class NetPacketSensorTest {
+public class RxPacketsSensorTest {
 
-	private NetPacketSensor sensor;
+	private RxPacketsSensor sensor;
 	
 	@Before
     public void setUp() throws SensorInitializationException {
-		sensor = new NetPacketSensor();
+		sensor = new RxPacketsSensor();
 		sensor.init();
     }
 	
@@ -24,17 +24,33 @@ public class NetPacketSensorTest {
 	public void testNetInterfaceEth0() 
 			throws MeasurementNotAvailableException,
 			       InvalidMonitorContextException, 
-			       InterruptedException, 
 			       SigarException {
 		MonitorContextBuilder builder = DefaultMonitorContext.builder();
 		builder.addContext("device", "eth0");
-		builder.addContext("mode", "rx");
 		sensor.setMonitorContext(builder.build());
 
-		while (true) {
-			System.out.println(sensor.getMeasurement().getValue());
-			Thread.sleep(1000);
-		}
+		System.out.println(sensor.getMeasurement().getValue());
+	}
+
+	@Test
+	public void testEmptyMonitorContext() 
+			throws MeasurementNotAvailableException,
+			       InvalidMonitorContextException {
+		MonitorContextBuilder builder = DefaultMonitorContext.builder();
+		sensor.setMonitorContext(builder.build());
+		
+		System.out.println(sensor.getMeasurement().getValue());
+	}
+	
+	@Test(expected = InvalidMonitorContextException.class)
+	public void testWrongDevice() 
+			throws MeasurementNotAvailableException, 
+			       InvalidMonitorContextException {
+		MonitorContextBuilder builder = DefaultMonitorContext.builder();
+		builder.addContext("device", "foobar");
+		sensor.setMonitorContext(builder.build());
+		
+		System.out.println(sensor.getMeasurement().getValue());
 	}
 	
 }

@@ -1,33 +1,40 @@
-package de.ustutt.omi.cloudiator.visor.sensors.fs;
+/**
+ * 
+ */
+package de.ustutt.omi.cloudiator.visor.sensors.net;
 
 import org.hyperic.sigar.SigarException;
 import org.junit.Before;
 import org.junit.Test;
 
 import de.uniulm.omi.cloudiator.visor.monitoring.DefaultMonitorContext;
+import de.uniulm.omi.cloudiator.visor.monitoring.DefaultMonitorContext.MonitorContextBuilder;
 import de.uniulm.omi.cloudiator.visor.monitoring.InvalidMonitorContextException;
 import de.uniulm.omi.cloudiator.visor.monitoring.MeasurementNotAvailableException;
 import de.uniulm.omi.cloudiator.visor.monitoring.SensorInitializationException;
-import de.uniulm.omi.cloudiator.visor.monitoring.DefaultMonitorContext.MonitorContextBuilder;
-import de.ustutt.omi.cloudiator.visor.sensors.fs.NfsAccessSensor;
 
-public class NfsAccessSensorTest {
+/**
+ * @author hopped
+ *
+ */
+public class TxBytesSensorTest {
 
-	private NfsAccessSensor sensor;
-
+	private TxBytesSensor sensor;
+	
 	@Before
-	public void setUp() throws SensorInitializationException {
-		sensor = new NfsAccessSensor();
+    public void setUp() throws SensorInitializationException {
+		sensor = new TxBytesSensor();
 		sensor.init();
-	}
+    }
 	
 	@Test
-	public void testNfsAccessibility() 
-			throws InvalidMonitorContextException, 
-				   MeasurementNotAvailableException,
-				   SigarException {
+	public void testTxBytesOnEth0() 
+			throws MeasurementNotAvailableException,
+			       InvalidMonitorContextException,
+			       SigarException {
 		MonitorContextBuilder builder = DefaultMonitorContext.builder();
-		builder.addContext("nfs_root", "/media/nfs");
+		builder.addContext("device", "eth0");
+		builder.addContext("unit", "mb");
 		sensor.setMonitorContext(builder.build());
 
 		System.out.println(sensor.getMeasurement().getValue());
@@ -44,24 +51,47 @@ public class NfsAccessSensorTest {
 	}
 
 	@Test
-	public void testMissingNfsRoot() 
+	public void testMissingDevice() 
 			throws MeasurementNotAvailableException, 
 			       InvalidMonitorContextException {
 		MonitorContextBuilder builder = DefaultMonitorContext.builder();
+		builder.addContext("unit", "mb");
 		sensor.setMonitorContext(builder.build());
 		
 		System.out.println(sensor.getMeasurement().getValue());
 	}
 	
 	@Test
-	public void testWrongNfsRoot() 
+	public void testMissingUnit() 
 			throws MeasurementNotAvailableException, 
 			       InvalidMonitorContextException {
 		MonitorContextBuilder builder = DefaultMonitorContext.builder();
-		builder.addContext("nfs_root", "foobar");
+		builder.addContext("device", "eth0");
 		sensor.setMonitorContext(builder.build());
 		
 		System.out.println(sensor.getMeasurement().getValue());
 	}
-
+	
+	@Test(expected = InvalidMonitorContextException.class)
+	public void testWrongDevice() 
+			throws MeasurementNotAvailableException, 
+			       InvalidMonitorContextException {
+		MonitorContextBuilder builder = DefaultMonitorContext.builder();
+		builder.addContext("device", "foobar");
+		sensor.setMonitorContext(builder.build());
+		
+		System.out.println(sensor.getMeasurement().getValue());
+	}
+	
+	@Test
+	public void testWrongUnit() 
+			throws MeasurementNotAvailableException, 
+			       InvalidMonitorContextException {
+		MonitorContextBuilder builder = DefaultMonitorContext.builder();
+		builder.addContext("unit", "foobar");
+		sensor.setMonitorContext(builder.build());
+		
+		System.out.println(sensor.getMeasurement().getValue());
+	}
+	
 }

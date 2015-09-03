@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
-import java.net.SocketTimeoutException;
 
 import de.uniulm.omi.cloudiator.visor.monitoring.AbstractSensor;
 import de.uniulm.omi.cloudiator.visor.monitoring.InvalidMonitorContextException;
@@ -13,13 +12,12 @@ import de.uniulm.omi.cloudiator.visor.monitoring.MeasurementImpl;
 import de.uniulm.omi.cloudiator.visor.monitoring.MeasurementNotAvailableException;
 import de.uniulm.omi.cloudiator.visor.monitoring.MonitorContext;
 
-public class LatencySensor extends AbstractSensor {
+public class NetworkLatencySensor extends AbstractSensor {
 
 	public static final String CONTEXT_HOST = "host";
 	public static final String CONTEXT_PORT = "port";
 	public static final String CONTEXT_LOOPS = "loops";
-	
-	private static final String DEFAULT_HOST = "http://www.hlrs.de";
+
 	private static final String DEFAULT_PORT = "80";
 	private static final String DEFAULT_LOOPS = "1";
 
@@ -31,39 +29,47 @@ public class LatencySensor extends AbstractSensor {
 	public void setMonitorContext(MonitorContext monitorContext)
 			throws InvalidMonitorContextException {
 		super.setMonitorContext(monitorContext);
-		host = monitorContext.getOrDefault(CONTEXT_HOST, DEFAULT_HOST);
+		host = monitorContext.getValue(CONTEXT_HOST);
+		if (host == null) {
+			throw new InvalidMonitorContextException(
+					new Error("Given host is null."));
+		}
 		String strLoops = monitorContext.getOrDefault(CONTEXT_LOOPS, DEFAULT_LOOPS);
 		String strPort = monitorContext.getOrDefault(CONTEXT_PORT, DEFAULT_PORT);
+		
 		try {
 			port = Integer.parseInt(strPort);
 		} catch (NumberFormatException nfe) {
 			throw new InvalidMonitorContextException(
 					new Error("Port (" + strPort + ") is invalid."));
 		}
+		
 		try {
 			loops = Integer.parseInt(strLoops);
 		} catch (NumberFormatException nfe) {
 			throw new InvalidMonitorContextException(
 					new Error("Given loops (" + strLoops + ") are not a number."));
 		}
+		
 		checkURL(host, port);
 	}
 
-	private void checkURL(String host, int port)
+	private void checkURL(final String host, final int port)
 			throws InvalidMonitorContextException {
-		SocketAddress sockaddr = new InetSocketAddress(host, port);
-		Socket socket = new Socket();
+		Socket socket = null;
 		try {
+			SocketAddress sockaddr = new InetSocketAddress(host, port);
+			socket = new Socket();
 			socket.connect(sockaddr, 500);
-		} catch (SocketTimeoutException stex) {
-			throw new InvalidMonitorContextException(stex);
-		} catch (IOException ioe) {
-			throw new InvalidMonitorContextException(ioe);
+		} catch (Exception e) {
+			throw new InvalidMonitorContextException(e);
 		} finally {
-			try {
-				socket.close();
-			} catch (IOException ex) {
-				throw new InvalidMonitorContextException(ex);
+			if (socket != null) {
+				try {
+					socket.close();
+				} catch (IOException ex) {
+					throw new InvalidMonitorContextException(ex);
+				}
 			}
 		}
 	}
@@ -71,12 +77,13 @@ public class LatencySensor extends AbstractSensor {
 	@Override
 	protected Measurement getMeasurement(MonitorContext monitorContext)
 			throws MeasurementNotAvailableException {
-		return new MeasurementImpl(System.currentTimeMillis(), computeAverageLatency());
+		double latency = computeAverageLatency();
+		return new MeasurementImpl(System.currentTimeMillis(), latency);
 	}
-	
+
 	private double computeAverageLatency() {
 		double latency = 0.0;
-		
+
 		Socket socket = null;
 		SocketAddress address = new InetSocketAddress(host, port);
 		for (int i = 0; i != loops; ++i) {
@@ -92,6 +99,7 @@ public class LatencySensor extends AbstractSensor {
 			latency = latency + (end - start);
 		}
 		double average = latency / loops;
+		
 		return Math.floor(average * 100) / 100;
 	}
 

@@ -15,33 +15,36 @@ import de.uniulm.omi.cloudiator.visor.monitoring.MonitorContext;
 public class NfsAccessSensor extends AbstractSensor {
 
 	public static final String CONTEXT_NFS = "nfs_root";
-	
+
 	private String nfsRoot = null;
 
 	@Override
-	public void setMonitorContext(MonitorContext monitorContext) throws InvalidMonitorContextException {
+	public void setMonitorContext(MonitorContext monitorContext)
+			throws InvalidMonitorContextException {
 		super.setMonitorContext(monitorContext);
 		nfsRoot = monitorContext.getValue(CONTEXT_NFS);
 	}
-	
+
 	@Override
 	protected Measurement getMeasurement(MonitorContext monitorContext)
 			throws MeasurementNotAvailableException {
-		return new MeasurementImpl(System.currentTimeMillis(), checkNFSAvailability(nfsRoot));
+		boolean avail = checkNFSAvailability(nfsRoot);
+		return new MeasurementImpl(System.currentTimeMillis(), avail);
 	}
 
-	public boolean checkNFSAvailability(String name) {
+	public boolean checkNFSAvailability(final String name) {
 		try {
 			SigarProxy proxy = SigarProxyCache.newInstance();
 			FileSystem fs = proxy.getFileSystemMap().getFileSystem(name);
 			if (fs instanceof NfsFileSystem) {
-	            NfsFileSystem nfs = (NfsFileSystem) fs;
-	            return nfs.ping();
-	        }
+				NfsFileSystem nfs = (NfsFileSystem) fs;
+				return nfs.ping();
+			}
 		} catch (Exception e) {
 			return false;
 		}
-		
+
 		return false;
 	}
+
 }
