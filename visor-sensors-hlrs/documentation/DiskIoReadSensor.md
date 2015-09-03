@@ -5,5 +5,5 @@
 ## Configuration
 | MonitorContext Parameter | Description | Example Value |
 |:-------------------------|:------------|:--------------|
-| fs_device                | The mounting point to the disk to be measured. The value defaults to `sda`. | sda |
-| unit                     | The unit of measurement. Unit of measurments available are: MBytes/s (mb), GBytes/s (gb), TBytes/s (tb). The value defaults to `gb`. | gb |
+| fs_device                | The mounting point to the disk to be measured. The value defaults to `sda`. | `sdb` |
+| unit                     | The unit of measurement. Unit of measurments available are: MBytes/s (`mb`), GBytes/s (`gb`), TBytes/s (`tb`). The value defaults to `gb`. | `mb` |
