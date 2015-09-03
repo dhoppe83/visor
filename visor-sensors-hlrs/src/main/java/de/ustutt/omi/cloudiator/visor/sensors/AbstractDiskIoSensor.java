@@ -15,7 +15,6 @@ public abstract class AbstractDiskIoSensor extends AbstractSensor {
 
 	public static final String CONTEXT_DEVICE = "fs_device";
 	public static final String CONTEXT_UNIT = "unit";
-	public static final String CONTEXT_MODE = "mode";
 
 	private final String defaultDevice = SensorUtils.getDefaultFsDevice();
 	private double unit = SensorUtils.FS_DEFAULT_UNIT;
