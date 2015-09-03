@@ -23,6 +23,7 @@
     <modules>
         <module>visor-api</module>
         <module>visor-sensors</module>
+        <module>visor-sensors-hlrs</module>
         <module>visor-rest</module>
         <module>visor-telnet</module>
         <module>visor-reporting-kairos</module>
@@ -79,6 +80,11 @@
             <dependency>
                 <groupId>de.uniulm.omi.cloudiator</groupId>
                 <artifactId>visor-sensors</artifactId>
+                <version>${visor.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.ustutt.omi.cloudiator</groupId>
+                <artifactId>visor-sensors-hlrs</artifactId>
                 <version>${visor.version}</version>
             </dependency>
             <dependency>
