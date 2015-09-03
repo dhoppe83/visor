@@ -4,6 +4,7 @@
 .project
 .settings
 out
+lib
 target
 logs/*
 conf/configuration.properties
