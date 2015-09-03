@@ -11,17 +11,13 @@ The Cloudiator Visor monitoring framework is extended with eleven additional sen
 This modules provides four file system sensors and seven network interface sensors. Please read more about each sensor and available configuration parameter in the [documentation][documentation].
 
 ### File System Sensors
----------------------------------------------------------------------------------------------------
-Name of sensor                                  Description
------------------------------------------------ ---------------------------------------------------
-[DiskIoReadSensor][DiskIoReadSensor]            Reports on data reads per second for a given disk
+| Name of sensor                             | Description                                         |
+| :----------------------------------------- |:----------------------------------------------------|
+| [DiskIoReadSensor][DiskIoReadSensor]       | Reports on data reads per second for a given disk   |
+| [DiskIoWriteSensor][DiskIoWriteSensor]     | Reports on data writes per second for a given disk  |
+| [FreeDiskSpaceSensor][FreeDiskSpaceSensor] | Reports on available disk space                     |
+| [NfsAccessSensor][NfsAccessSensor]         | Checks the availability of a NFS via pinging        |
 
-[DiskIoWriteSensor][DiskIoWriteSensor]          Reports on data writes per second for a given disk
-
-[FreeDiskSpaceSensor][FreeDiskSpaceSensor]      Reports on available disk space
-
-[NfsAccessSensor][NfsAccessSensor]              Checks the availability of a NFS via pinging
----------------------------------------------------------------------------------------------------
 
 ## Prerequisites
 Please ensure that a current version of Maven is installed. Moreover, please keep in mind that the Visor monitoring framework requires JRE 8.
