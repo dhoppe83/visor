@@ -52,6 +52,11 @@
             <groupId>de.uniulm.omi.cloudiator</groupId>
             <artifactId>visor-sensors</artifactId>
         </dependency>
+        <dependency>
+            <groupId>de.ustutt.omi.cloudiator</groupId>
+            <artifactId>visor-sensors-hlrs</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
     </dependencies>
 
     <artifactId>visor-service</artifactId>
