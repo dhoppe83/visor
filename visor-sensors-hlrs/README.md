@@ -18,6 +18,17 @@ This modules provides four file system sensors and seven network interface senso
 | [FreeDiskSpaceSensor][FreeDiskSpaceSensor] | Reports on available disk space                     |
 | [NfsAccessSensor][NfsAccessSensor]         | Checks the availability of a NFS via pinging        |
 
+### Network Sensors
+| Name of sensor                                   | Description                                               |
+| :----------------------------------------------- |:----------------------------------------------------------|
+| [DownloadBandwithSensor][DownloadBandwithSensor] | Reports on the download speed of a given network device   |
+| [NetworkLatencySensor][NetworkLatencySensor]     | Reports on the network latency for a specific host        |
+| [RxBytesSensor][RxBytesSensor]                   | Reports on the accumulated RxBytes for a given device     |
+| [RxPacketsSensor][RxPacketsSensor]               | Reports on the accumulated RxPackets for a given device   |
+| [TxBytesSensor][TxBytesSensor]                   | Reports on the accumulated TxBytes for a given device     |
+| [TxPacketsSensor][TxPacketsSensor]               | Reports on the accumulated TxPackets for a given device   |
+| [UploadBandwithSensor][UploadBandwithSensor]     | Reports on the upload speed of a given network device     |
+
 
 ## Prerequisites
 Please ensure that a current version of Maven is installed. Moreover, please keep in mind that the Visor monitoring framework requires JRE 8.
@@ -101,3 +112,12 @@ Copyright 2015 University of Stuttgart.
 [DiskIoWriteSensor]: documentation/DiskIoWriteSensor.md
 [FreeDiskSpaceSensor]: documentation/FreeDiskSpaceSensor.md
 [NfsAccessSensor]: documentation/NfsAccessSensor.md
+
+[DownloadBandwithSensor]: documentation/DownloadBandwithSensor.md
+[NetworkLatencySensor]: documentation/NetworkLatencySensor.md
+[RxBytesSensor]: documentation/RxBytesSensor.md
+[RxPacketsSensor]: documentation/RxPacketsSensor.md
+[TxBytesSensor]: documentation/TxBytesSensor.md
+[TxPacketsSensor]: documentation/TxPacketsSensor.md
+[UploadBandwithSensor]: documentation/UploadBandwithSensor.md
+
