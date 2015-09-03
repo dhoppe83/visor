@@ -7,6 +7,22 @@
 The Cloudiator Visor monitoring framework is extended with eleven additional sensors to support substantial network monitoring and status reports about the underlying file systems. Most sensors rely on the [System Information Gatherer and Reporter (Sigar) API][sigar] that provides a unified access to network interfaces and to underlying file systems. That way, a single sensor is guaranteed to monitor metrics independent of the operating system.
 
 
+## Available Sensors
+This modules provides four file system sensors and seven network interface sensors. Please read more about each sensor and available configuration parameter in the [documentation][documentation].
+
+### File System Sensors
+---------------------------------------------------------------------------------------------------
+Name of sensor                                  Description
+----------------------------------------------- ---------------------------------------------------
+[DiskIoReadSensor][DiskIoReadSensor]            Reports on data reads per second for a given disk
+
+[DiskIoWriteSensor][DiskIoWriteSensor]          Reports on data writes per second for a given disk
+
+[FreeDiskSpaceSensor][FreeDiskSpaceSensor]      Reports on available disk space
+
+[NfsAccessSensor][NfsAccessSensor]              Checks the availability of a NFS via pinging
+---------------------------------------------------------------------------------------------------
+
 ## Prerequisites
 Please ensure that a current version of Maven is installed. Moreover, please keep in mind that the Visor monitoring framework requires JRE 8.
 
@@ -47,8 +63,7 @@ $ curl -XPOST "http://0.0.0.0:31415/monitors" -d'
   },
   "metricName": "free_disk_space",
   "sensorClassName": "de.ustutt.omi.cloudiator.visor.sensors.fs.FreeDiskSpaceSensor"
-}
-'
+}'
 ```
 
 
@@ -58,15 +73,14 @@ Please [create](https://github.com/dhoppe83/visor/issues) an issue.
 
 
 ## Authors
-**Yosandra Sandoval**
-
-+ [github/yosandra](https://github.com/yosandra)
-
 **Dennis Hoppe**
-
 + [github/hopped](https://github.com/hopped)
 
+**Yosandra Sandoval**
++ [github/yosandra](https://github.com/yosandra)
+
 **Pavel Skortsov**
++ [skvortsov@hlrs.de](mailto:skvortsov@hlrs.de)
 
 
 ## Release History
@@ -82,6 +96,12 @@ Copyright 2015 University of Stuttgart.
 [Apache License](LICENSE).
 
 
+[documentation]: documentation/README.md
 [hlrs]: http://www.hlrs.de
 [sigar]: http://sigar.hyperic.com/
 [visor]: https://github.com/cloudiator/visor
+
+[DiskIoReadSensor]: documentation/DiskIoReadSensor.md
+[DiskIoWriteSensor]: documentation/DiskIoWriteSensor.md
+[FreeDiskSpaceSensor]: documentation/FreeDiskSpaceSensor.md
+[NfsAccessSensor]: documentation/NfsAccessSensor.md
