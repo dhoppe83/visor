@@ -12,7 +12,7 @@ This documentation provides for each sensor a brief description including availa
 ## Network Sensors
 | Name of sensor                                   | Description                                               |
 | :----------------------------------------------- |:----------------------------------------------------------|
-| [DownloadBandwithSensor][DownloadBandwithSensor] | Reports on the download speed of a given network device   |
+| [DownloadBandwidthSensor][DownloadBandwidthSensor] | Reports on the download speed of a given network device   |
 | [NetworkLatencySensor][NetworkLatencySensor]     | Reports on the network latency for a specific host        |
 | [RxBytesSensor][RxBytesSensor]                   | Reports on the accumulated RxBytes for a given device     |
 | [RxPacketsSensor][RxPacketsSensor]               | Reports on the accumulated RxPackets for a given device   |
@@ -25,7 +25,7 @@ This documentation provides for each sensor a brief description including availa
 [FreeDiskSpaceSensor]: FreeDiskSpaceSensor.md
 [NfsAccessSensor]: NfsAccessSensor.md
 
-[DownloadBandwithSensor]: DownloadBandwithSensor.md
+[DownloadBandwidthSensor]: DownloadBandwidthSensor.md
 [NetworkLatencySensor]: NetworkLatencySensor.md
 [RxBytesSensor]: RxBytesSensor.md
 [RxPacketsSensor]: RxPacketsSensor.md
