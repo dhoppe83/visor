@@ -18,7 +18,7 @@ This documentation provides for each sensor a brief description including availa
 | [RxPacketsSensor][RxPacketsSensor]               | Reports on the accumulated RxPackets for a given device   |
 | [TxBytesSensor][TxBytesSensor]                   | Reports on the accumulated TxBytes for a given device     |
 | [TxPacketsSensor][TxPacketsSensor]               | Reports on the accumulated TxPackets for a given device   |
-| [UploadBandwithSensor][UploadBandwithSensor]     | Reports on the upload speed of a given network device     |
+| [UploadBandwidthSensor][UploadBandwidthSensor]     | Reports on the upload speed of a given network device     |
 
 [DiskIoReadSensor]: DiskIoReadSensor.md
 [DiskIoWriteSensor]: DiskIoWriteSensor.md
@@ -31,4 +31,4 @@ This documentation provides for each sensor a brief description including availa
 [RxPacketsSensor]: RxPacketsSensor.md
 [TxBytesSensor]: TxBytesSensor.md
 [TxPacketsSensor]: TxPacketsSensor.md
-[UploadBandwithSensor]: UploadBandwithSensor.md
+[UploadBandwidthSensor]: UploadBandwidthSensor.md
