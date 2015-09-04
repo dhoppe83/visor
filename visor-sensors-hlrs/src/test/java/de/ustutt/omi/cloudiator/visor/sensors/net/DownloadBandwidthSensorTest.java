@@ -43,7 +43,7 @@ public class DownloadBandwidthSensorTest {
 			       InvalidMonitorContextException,
 			       InterruptedException {
 		MonitorContextBuilder builder = DefaultMonitorContext.builder();
-		builder.addContext("device", "eth0");
+		builder.addContext("net_device", "eth0");
 		builder.addContext("unit", "kb");
 
 		sensor.setMonitorContext(builder.build());
