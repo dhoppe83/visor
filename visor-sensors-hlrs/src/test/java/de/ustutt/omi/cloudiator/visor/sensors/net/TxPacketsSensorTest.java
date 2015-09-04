@@ -43,7 +43,7 @@ public class TxPacketsSensorTest {
 			       InvalidMonitorContextException, 
 			       SigarException {
 		MonitorContextBuilder builder = DefaultMonitorContext.builder();
-		builder.addContext("device", "eth0");
+		builder.addContext("net_device", "eth0");
 		sensor.setMonitorContext(builder.build());
 
 		System.out.println(sensor.getMeasurement().getValue());
@@ -64,7 +64,7 @@ public class TxPacketsSensorTest {
 			throws MeasurementNotAvailableException, 
 			       InvalidMonitorContextException {
 		MonitorContextBuilder builder = DefaultMonitorContext.builder();
-		builder.addContext("device", "foobar");
+		builder.addContext("net_device", "foobar");
 		sensor.setMonitorContext(builder.build());
 		
 		System.out.println(sensor.getMeasurement().getValue());

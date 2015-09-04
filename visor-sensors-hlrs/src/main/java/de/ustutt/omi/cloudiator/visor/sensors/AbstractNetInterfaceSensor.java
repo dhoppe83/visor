@@ -29,7 +29,7 @@ import de.uniulm.omi.cloudiator.visor.monitoring.MonitorContext;
 
 public abstract class AbstractNetInterfaceSensor extends AbstractSensor {
 
-	public static final String CONTEXT_NET_DEVICE = "device";
+	public static final String CONTEXT_NET_DEVICE = "net_device";
 	public static final String CONTEXT_NET_MODE = "mode";
 	public static final String CONTEXT_NET_UNIT = "unit";
 
